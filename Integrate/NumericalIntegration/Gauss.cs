@@ -10,8 +10,9 @@ namespace ComputationalMethods.Integrate.NumericalIntegration
 
         private int _numberOfPartitions = 6;
 
-        private double[] _x;
-        private double[] _c;
+        private double[] _x = new[] {-0.93246951, -0.6612093, -0.23861918, 0.23861918, 0.6612093, 0.93246951};
+        private double[] _c = new[] {0.171324492, 0.36076157, 0.46793, 0.46793, 0.36076157, 0.171324492};
+
         public int NumberOfPartitions
         {
             get => _numberOfPartitions;
