@@ -4,6 +4,7 @@ using System.Linq;
 using ComputationalMethods.Approximation.ApproximationMethods;
 using ComputationalMethods.Approximation.InterpolationMethods;
 using ComputationalMethods.Integrate.NumericalIntegration;
+using ComputationalMethods.Integrate.NumericalIntegration.SpecialSituations;
 using MathNet.Numerics.Integration;
 
 namespace ComputationalMethods {
@@ -11,7 +12,7 @@ namespace ComputationalMethods {
         #region Main
         static void Main(string[] args)
         {
-            Lab5();
+            Lab6();
         }
 
         #endregion
@@ -151,6 +152,30 @@ namespace ComputationalMethods {
 
             Console.WriteLine("Library Answer");
             Console.WriteLine("{0:##0.####}", MathNet.Numerics.Integrate.DoubleExponential(f, intervalBegin, intervalEnd));
+        }
+
+        static void Lab6()
+        {
+            // 10.1 //
+            Func<double, double> f = (x) => Math.Log(x) * Math.Log(1 + x);
+            double intervalBegin = 0;
+            double intervalEnd = 1;
+
+            Console.WriteLine("First Integral (Gauss Method)");
+            Integration finder = new Integration(new Gauss());
+            finder.NumberOfPartitions = 6;
+            Console.WriteLine("{0:##0.####}", finder.Solve(f, intervalBegin, intervalEnd));
+
+            Console.WriteLine("Library Answer");
+            Console.WriteLine("{0:##0.####}", MathNet.Numerics.Integrate.DoubleExponential(f, intervalBegin, intervalEnd));
+
+            // 10.2 //
+            f = (x) => 1 / ((9 + Math.Pow(x, 2)) * (27 + Math.Pow(x, 3)));
+            intervalBegin = 0;
+            intervalEnd = Double.PositiveInfinity;
+            Console.WriteLine("Second Integral (Special Situation)");
+            finder = new Integration(new ImproperIntegralFirstKind());
+            Console.WriteLine("{0:##0.####}", finder.Solve(f, intervalBegin, intervalEnd));
         }
 
         #endregion
