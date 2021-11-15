@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using ComputationalMethods.Approximation.ApproximationMethods;
 using ComputationalMethods.Approximation.InterpolationMethods;
 using ComputationalMethods.Integrate.NumericalIntegration;
 using ComputationalMethods.Integrate.NumericalIntegration.SpecialSituations;
+using ComputationalMethods.Integrate.OdeSolvers;
 using MathNet.Numerics.Integration;
+using MathNet.Numerics.OdeSolvers;
+using RungeKutta = ComputationalMethods.Integrate.OdeSolvers.RungeKutta;
 
 namespace ComputationalMethods {
     class Program {
         #region Main
         static void Main(string[] args)
         {
-            Lab6();
+            Lab7();
         }
 
         #endregion
@@ -176,6 +180,40 @@ namespace ComputationalMethods {
             Console.WriteLine("Second Integral (Special Situation)");
             finder = new Integration(new ImproperIntegralFirstKind());
             Console.WriteLine("{0:##0.####}", finder.Solve(f, intervalBegin, intervalEnd));
+        }
+
+        static void Lab7()
+        {
+            // Init Condition //
+            double y0 = 4.6;
+            double start = 1.6;
+            double end = 2.6;
+            int N = 11;
+            Func<double, double, double> f = (x, y) => x + Math.Cos(y / 3);
+
+            double[] x = new double[N];
+            x[0] = start;
+            double h = 0.1;
+            for (int i = 1; i < x.Length; i++)
+            {
+                x[i] = x[i - 1] + h;
+            }
+            // Methods //
+            Console.WriteLine("LeonhardEuler Simple Method");
+            double[] y = LeonhardEuler.Simple(y0, start, end, N, f);
+            Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
+
+            Console.WriteLine("LeonhardEuler Improved Method");
+            y = LeonhardEuler.Improved(y0, start, end, N, f);
+            Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
+
+            Console.WriteLine("RungeKutta FourthOrder Method");
+            y = RungeKutta.FourthOrder(y0, start, end, N, f);
+            Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
+
+            Console.WriteLine("AdamsBashforth FourthOrder Method -> Answer ");
+            y = AdamsBashforth.FourthOrder(y0, start, end, N, f);
+            Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
         }
 
         #endregion
