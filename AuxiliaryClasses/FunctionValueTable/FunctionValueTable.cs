@@ -45,6 +45,33 @@ namespace ComputationalMethods
 
         #endregion
 
+        public string ToStringInline()
+        {
+            // Variables //
+            var str = new StringBuilder(string.Empty);
+            const int offset = 8; // Offset for values
+            // Generate string //
+            str.Append("I :");
+            for (int i = 0; i < Points.Count; i++)
+            {
+                str.Append($"{i,offset}");
+            }
+
+            str.Append("\nX :");
+            for (int i = 0; i < Points.Count; i++)
+            {
+                str.Append($"{Points[i].x,offset:###.####}");
+            }
+
+            str.Append("\nY :");
+            for (int i = 0; i < Points.Count; i++)
+            {
+                str.Append($"{Points[i].y,offset:###.####}");
+            }
+
+            return str.ToString();
+        }
+
         public override string ToString()
         {
             var str = new StringBuilder(string.Empty);
