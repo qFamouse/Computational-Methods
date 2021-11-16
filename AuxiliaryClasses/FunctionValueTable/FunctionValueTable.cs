@@ -60,13 +60,13 @@ namespace ComputationalMethods
             str.Append("\nX :");
             for (int i = 0; i < Points.Count; i++)
             {
-                str.Append($"{Points[i].x,offset:###.####}");
+                str.Append($"{Points[i].x,offset:g4}");
             }
 
             str.Append("\nY :");
             for (int i = 0; i < Points.Count; i++)
             {
-                str.Append($"{Points[i].y,offset:###.####}");
+                str.Append($"{Points[i].y,offset:g4}");
             }
 
             return str.ToString();
