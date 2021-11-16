@@ -184,12 +184,19 @@ namespace ComputationalMethods {
 
         static void Lab7()
         {
-            // Init Condition //
-            double y0 = 4.6;
-            double start = 1.6;
-            double end = 2.6;
-            int N = 11;
-            Func<double, double, double> f = (x, y) => x + Math.Cos(y / 3);
+            // Example Condition //
+            //double y0 = 4.6;
+            //double start = 1.6;
+            //double end = 2.6;
+            //int N = 11;
+            //Func<double, double, double> f = (x, y) => x + Math.Cos(y / 3);
+
+            // Variant 10 Condition //
+            double y0 = 0;
+            double start = 0;
+            double end = 0.5;
+            int N = 6;
+            Func<double, double, double> f = (x, y) => (x * y) / (1 + Math.Pow(x, 2)) - 1 / (1 + Math.Pow(x, 2));
 
             double[] x = new double[N];
             x[0] = start;
