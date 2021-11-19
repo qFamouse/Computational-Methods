@@ -7,13 +7,14 @@ namespace ComputationalMethods.Matrix
         // Output matrix
         public static void Write2D(double[,] matrix)
         {
+            const int offset = 10; // Offset for values
             int rows = matrix.GetLength(0);
             int columns = matrix.GetLength(1);
             for (int row = 0; row < rows; row++)
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    Console.Write(matrix[row, column] + "\t");
+                    Console.Write($"{matrix[row, column],offset:g6}");
                 }
                 Console.WriteLine();
             }
