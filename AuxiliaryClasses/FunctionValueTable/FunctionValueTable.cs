@@ -69,7 +69,7 @@ namespace ComputationalMethods
                 str.Append($"{Points[i].y,offset:g4}");
             }
 
-            return str.ToString();
+            return str.AppendLine().ToString();
         }
 
         public override string ToString()
