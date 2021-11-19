@@ -1,22 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using ComputationalMethods.Approximation.ApproximationMethods;
 using ComputationalMethods.Approximation.InterpolationMethods;
 using ComputationalMethods.Integrate.NumericalIntegration;
 using ComputationalMethods.Integrate.NumericalIntegration.SpecialSituations;
 using ComputationalMethods.Integrate.OdeSolvers;
-using MathNet.Numerics.Integration;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.OdeSolvers;
 using RungeKutta = ComputationalMethods.Integrate.OdeSolvers.RungeKutta;
+using MathNetRungeKutta = MathNet.Numerics.OdeSolvers.RungeKutta;
+using Matrix = ComputationalMethods.Matrix.Matrix;
+
 
 namespace ComputationalMethods {
     class Program {
         #region Main
         static void Main(string[] args)
         {
-            Lab7();
+            Lab8();
         }
 
         #endregion
@@ -182,6 +185,12 @@ namespace ComputationalMethods {
             Console.WriteLine("{0:##0.####}", finder.Solve(f, intervalBegin, intervalEnd));
         }
 
+        #endregion
+
+        #region Ordinary differential equation
+
+        #region Cauchy problem
+
         static void Lab7()
         {
             /* Example Condition */
@@ -227,6 +236,85 @@ namespace ComputationalMethods {
             Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
         }
 
+        #endregion
+
+        #region System of linear differential equations
+
+        static void Lab8()
+        {
+            /* Condition */
+            double[] y0 = new double[]
+            {
+                /* Example */
+                //0.5, // y(0)
+                //1    // z(0)
+                /* Variant 10 */
+                1,     // y(0)
+                2      // z(0)
+            };
+            double start = 0;
+            double end = 0.5;
+            int N = 6;
+            Func<double, double[], double[]> funcs = (x, funcs) =>
+            {
+                double y = funcs[0];
+                double z = funcs[1];
+
+                return new double[]
+                {
+                    /* Example */
+                    //Math.Pow(Math.E, -Math.Abs(z*z + y*y)) + 2 * x, // y'
+                    //2 * Math.Pow(y, 2) + z // z'
+                    /* Variant 10 */
+                    Math.Cos(y+2*z), // y'
+                    (2 / (4*y+x)) + x + 1 // z'
+                };
+            };
+
+
+            /* Decision */
+            Console.WriteLine("LeonhardEuler Simple Method");
+            double[,] answer = LeonhardEuler.Simple(y0, start, end, N, funcs);
+            Matrix.Matrix.Writeln2D(answer);
+
+            Console.WriteLine("RungeKutta FourthOrder Method");
+            answer = RungeKutta.FourthOrder(y0, start, end, N, funcs);
+            Matrix.Matrix.Writeln2D(answer);
+
+            /* Answer with MathNet */
+            Vector<double> y0Math = Vector<double>.Build.Dense(new[] { 0.5, 1 });
+            Func<double, Vector<double>, Vector<double>> funcsMath = (x, funcsVector) =>
+            {
+                double[] funcs = funcsVector.ToArray();
+                double y = funcs[0];
+                double z = funcs[1];
+
+                return Vector<double>.Build.Dense(new[]
+                {
+                    /* Example */
+                    //Math.Pow(Math.E, -Math.Abs(z*z + y*y)) + 2 * x, // y'
+                    //2 * Math.Pow(y, 2) + z // z'
+                    /* Variant 10 */
+                    Math.Cos(y+2*z), // y'
+                    (2 / (4*y+x)) + x + 1 // z'
+                });
+            };
+            Vector<double>[] res = MathNetRungeKutta.FourthOrder(y0Math, start, end, N, funcsMath);
+
+            double[] x = new double[N];
+            double[] y = new double[N];
+            for (int i = 0; i < N; i++)
+            {
+                double[] temp = res[i].ToArray();
+                x[i] = temp[0];
+                y[i] = temp[1];
+            }
+            Console.WriteLine("Library answer (RungeKutta)");
+            Matrix.Matrix.Write2D(x);
+            Matrix.Matrix.Write2D(y);
+        }
+
+        #endregion
         #endregion
     }
 }
