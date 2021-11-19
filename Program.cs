@@ -184,14 +184,14 @@ namespace ComputationalMethods {
 
         static void Lab7()
         {
-            // Example Condition //
+            /* Example Condition */
             //double y0 = 4.6;
             //double start = 1.6;
             //double end = 2.6;
             //int N = 11;
             //Func<double, double, double> f = (x, y) => x + Math.Cos(y / 3);
 
-            // Variant 10 Condition //
+            /* Variant 10 Condition */
             double y0 = 0;
             double start = 0;
             double end = 0.5;
@@ -212,6 +212,10 @@ namespace ComputationalMethods {
 
             Console.WriteLine("LeonhardEuler Improved Method");
             y = LeonhardEuler.Improved(y0, start, end, N, f);
+            Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
+
+            Console.WriteLine("LeonhardEuler Euler-Cauchy Method");
+            y = LeonhardEuler.CauchyImproved(y0, start, end, N, f);
             Console.WriteLine(new FunctionValueTable(x, y).ToStringInline());
 
             Console.WriteLine("RungeKutta FourthOrder Method");
