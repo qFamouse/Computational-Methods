@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 using ComputationalMethods.Approximation.ApproximationMethods;
 using ComputationalMethods.Approximation.InterpolationMethods;
 using ComputationalMethods.Integrate.NumericalIntegration;
@@ -19,7 +20,7 @@ namespace ComputationalMethods {
         #region Main
         static void Main(string[] args)
         {
-            Lab8();
+            lab9();
         }
 
         #endregion
@@ -315,6 +316,41 @@ namespace ComputationalMethods {
         }
 
         #endregion
+
+        #region Solving boundary value problems for ordinary differential equations
+
+        static void lab9()
+        {
+            /* Condition */
+            double[] y0 = {0, 0};
+            double[] y1 = {1, 0};
+            double[] y2 = {0, 1};
+
+            Func<double, double> p = x => 1 / x;
+            Func<double, double> q = x => 0;
+            Func<double, double> f = x => -2 * Math.Pow(x, 2);
+
+            double start = 0.5;
+            double end = 1;
+            int N = 6;
+
+            Func<double, double[], double[]> odeSystem1 = (x, param) =>
+            {
+                double y = param[0];
+                double z = param[1];
+
+                return new double[]
+                {
+                    z,
+                    f(x) - q(x) * y - p(x) * z
+                };
+            };
+
+            var test = RungeKutta.FourthOrder(y0, start, end, N, odeSystem1);
+        }
+
+        #endregion
+
         #endregion
     }
 }
