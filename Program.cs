@@ -20,7 +20,7 @@ namespace ComputationalMethods {
         #region Main
         static void Main(string[] args)
         {
-            lab9();
+            Lab9();
         }
 
         #endregion
@@ -319,34 +319,43 @@ namespace ComputationalMethods {
 
         #region Solving boundary value problems for ordinary differential equations
 
-        static void lab9()
+        static void Lab9()
         {
-            /* Condition */
-            double[] y0 = {0, 0};
-            double[] y1 = {1, 0};
-            double[] y2 = {0, 1};
-
+            /* Condition from example */
             Func<double, double> p = x => 1 / x;
-            Func<double, double> q = x => 0;
+            Func<double, double> q = x => -2;
             Func<double, double> f = x => -2 * Math.Pow(x, 2);
 
             double start = 0.5;
             double end = 1;
             int N = 6;
+            double h = 0.1;
 
-            Func<double, double[], double[]> odeSystem1 = (x, param) =>
+            var answer = ReductionMethod.Solve(p, q, f, start, end, N, 0, 1, 1, 1, 0, 3);
+
+            foreach (var y in answer)
             {
-                double y = param[0];
-                double z = param[1];
+                //Console.WriteLine($"x: {start,3:g4} y: {y,5:g6} exact value: {Math.Pow(start, 2) + 2}");
+                start = Math.Round(start + h, 1);
+            }
 
-                return new double[]
-                {
-                    z,
-                    f(x) - q(x) * y - p(x) * z
-                };
-            };
+            /* Condition Variant 10 */
+            p = x => Math.Pow(x, 2);
+            q = x => -2d / Math.Pow(x, 2);
+            f = x => 1;
 
-            var test = RungeKutta.FourthOrder(y0, start, end, N, odeSystem1);
+            start = 0.5;
+            end = 1;
+            N = 6;
+            h = 0.1;
+
+            answer = ReductionMethod.Solve(p, q, f, start, end, N, 1, -1, 6, 1, 0, 1);
+
+            foreach (var y in answer)
+            {
+                Console.WriteLine($"x: {start,5:g1} y: {y,7:g5} exact value: {1 / start,5:g4}");
+                start = Math.Round(start + h, 1);
+            }
         }
 
         #endregion
