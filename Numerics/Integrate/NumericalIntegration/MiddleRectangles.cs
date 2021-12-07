@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ComputationalMethods.Integrate.NumericalIntegration
+namespace ComputationalMethods.Numerics.Integrate.NumericalIntegration
 {
-    class LeftRectangles : IIntegration
+    class MiddleRectangles : IIntegration
     {
         /// <summary>
         /// Determines how many parts to split, Default 100
@@ -19,7 +17,7 @@ namespace ComputationalMethods.Integrate.NumericalIntegration
 
             for (int i = 0; i < NumberOfPartitions - 1; i++)
             {
-                integralValue += f(intervalBegin + h * i);
+                integralValue += f(intervalBegin + h / 2 + i * h);
             }
 
             integralValue *= h;

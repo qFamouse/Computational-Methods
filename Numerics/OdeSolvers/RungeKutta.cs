@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ComputationalMethods.Integrate.OdeSolvers
+namespace ComputationalMethods.Numerics.OdeSolvers
 {
     class RungeKutta
     {

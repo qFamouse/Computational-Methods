@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Reflection.Metadata.Ecma335;
 using ComputationalMethods.Approximation.ApproximationMethods;
 using ComputationalMethods.Approximation.InterpolationMethods;
-using ComputationalMethods.Integrate.NumericalIntegration;
-using ComputationalMethods.Integrate.NumericalIntegration.SpecialSituations;
-using ComputationalMethods.Integrate.OdeSolvers;
-using MathNet.Numerics.Distributions;
+using ComputationalMethods.Numerics.Integrate.NumericalIntegration;
+using ComputationalMethods.Numerics.Integrate.NumericalIntegration.SpecialSituations;
+using ComputationalMethods.Numerics.OdeSolvers;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.OdeSolvers;
-using RungeKutta = ComputationalMethods.Integrate.OdeSolvers.RungeKutta;
+using RungeKutta = ComputationalMethods.Numerics.OdeSolvers.RungeKutta;
 using MathNetRungeKutta = MathNet.Numerics.OdeSolvers.RungeKutta;
-using Matrix = ComputationalMethods.Matrix.Matrix;
 
 
 namespace ComputationalMethods {

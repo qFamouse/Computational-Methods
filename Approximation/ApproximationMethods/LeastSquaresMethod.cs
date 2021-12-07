@@ -1,5 +1,5 @@
 ﻿using System;
-using ComputationalMethods.LinearSystems;
+using ComputationalMethods.Numerics.LinearSystems;
 
 namespace ComputationalMethods.Approximation.ApproximationMethods
 {

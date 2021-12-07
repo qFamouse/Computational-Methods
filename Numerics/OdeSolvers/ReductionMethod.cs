@@ -1,9 +1,7 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 
-namespace ComputationalMethods.Integrate.OdeSolvers
+namespace ComputationalMethods.Numerics.OdeSolvers
 {
     class ReductionMethod
     {

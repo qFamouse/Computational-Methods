@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ComputationalMethods.Integrate.NumericalIntegration
+namespace ComputationalMethods.Numerics.Integrate.NumericalIntegration
 {
     class RightRectangles : IIntegration
     {

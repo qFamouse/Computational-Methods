@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ComputationalMethods.Integrate.NumericalIntegration.SpecialSituations
+namespace ComputationalMethods.Numerics.Integrate.NumericalIntegration.SpecialSituations
 {
     class ImproperIntegralFirstKind : IIntegration
     {

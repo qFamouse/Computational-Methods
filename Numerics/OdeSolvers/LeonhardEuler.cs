@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
-namespace ComputationalMethods.Integrate.OdeSolvers
+namespace ComputationalMethods.Numerics.OdeSolvers
 {
     class LeonhardEuler
     {

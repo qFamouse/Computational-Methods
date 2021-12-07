@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComputationalMethods.LinearSystems
+namespace ComputationalMethods.Numerics.LinearSystems
 {
     class GaussSimpleMethod
     {
