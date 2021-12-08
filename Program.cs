@@ -15,7 +15,7 @@ namespace ComputationalMethods {
         #region Main
         static void Main(string[] args)
         {
-            Lab9();
+            Lab10();
         }
 
         #endregion
@@ -351,6 +351,20 @@ namespace ComputationalMethods {
                 Console.WriteLine($"x: {start,5:g1} y: {y,7:g5} exact value: {1 / start,5:g4}");
                 start = Math.Round(start + h, 1);
             }
+        }
+
+        static void Lab10()
+        {
+            /* Condition from example */
+            Func<double, double> p = x => 1;
+            Func<double, double> q = x => -(1 / x);
+            Func<double, double> f = x => 2 * x + 4;
+
+            double start = 0;
+            double end = 1;
+            int N = 11;
+
+            GridMethod.Solve(p, q, f, start, end, N, 1, 0, 0, 1, 0, 3);
         }
 
         #endregion
