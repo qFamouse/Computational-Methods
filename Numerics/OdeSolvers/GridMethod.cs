@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using ComputationalMethods.Numerics.LinearSystems;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace ComputationalMethods.Numerics.OdeSolvers
@@ -24,72 +25,51 @@ namespace ComputationalMethods.Numerics.OdeSolvers
         /// <param name="α2"></param>
         /// <param name="β2"></param>
         /// <param name="γ2"></param>
-        public static void Solve(Func<double, double> pX, Func<double, double> qX, Func<double, double> fX,
+        public static double[] Solve(Func<double, double> pX, Func<double, double> qX, Func<double, double> fX,
             double start, double end, int N,
             double α1, double β1, double γ1,
             double α2, double β2, double γ2)
         {
+            if (Math.Pow(α1, 2) + Math.Pow(β1, 2) < 0 ||
+                Math.Pow(α2, 2) + Math.Pow(β2, 2) < 0)
+            {
+                throw new ArgumentException("αi^2 + βi^2 must be greater then 0");
+            }
+
             double h = (end - start) / (N - 1);
 
+            double a(double x) { return 1 - (h / 2) * pX(x); }         // Ai = 1 - h/2 * p(x)
 
-            double a(double x) // Ci = 1 - h/2 * p(x)
-            {
-                return 1 - (h / 2) * pX(x);
-            }
+            double b(double x) { return Math.Pow(h, 2) * qX(x) - 2; }  // Bi = h^2 * q(Xi) - 2
 
-            double b(double x) // Bi = h^2 * q(Xi) - 2
-            {
-                return Math.Pow(h, 2) * qX(x) - 2;
-            }
+            double c(double x) { return 1 + (h / 2) * pX(x); }         // Ci =  1 + h/2 * p(Xi)
 
-            double c(double x) // Ai = 1 + h/2 * p(Xi)
-            {
-                return 1 + (h / 2) * pX(x);
-            }
+            var matrix = new double[N, N];
+            var freeMembers = new double[N];
 
-            var size = N - 2;
+            // Difference approximation for boundary conditions
+            matrix[0, 0] = α1 - β1 / h;
+            matrix[0, 1] = β1 / h;
+            freeMembers[0] = γ1;
 
-            var matrix = new double[size, size];
-            var freeMembers = new double[size];
+            matrix[N - 1, N - 1] = α2 + β2 / h;
+            matrix[N - 1, N - 2] = -(β2 / h);
+            freeMembers[N - 1] = γ2;
 
-
+            // Main cycle of filling matrix
             double x = start + h;
-            for (int row = 0; row < size; row++)
+            for (int i = 1; i < N - 1; i++, x+=h)
             {
-                int column = row;
+                matrix[i, i - 1] = a(x); // Ai = 1 - h/2 * p(Xi)
+                matrix[i, i]     = b(x); // Bi = h^2 * q(Xi) - 2
+                matrix[i, i + 1] = c(x); // Ci = 1 + h/2 * p(Xi)
 
-                if (column - 1 >= 0)
-                {
-                    matrix[row, column - 1] = a(x);
-                    Matrix.Matrix.Write2D(matrix);
-                    Console.WriteLine();
-                }
-
-                if (column < size)
-                {
-                    matrix[row, column] = b(x);
-                    Matrix.Matrix.Write2D(matrix);
-                    Console.WriteLine();
-                }
-
-                if (column + 1 < size)
-                {
-                    matrix[row, column + 1] = c(x);
-                    Matrix.Matrix.Write2D(matrix);
-                    Console.WriteLine();
-                }
-
-                freeMembers[row] = Math.Pow(h, 2) * fX(x);
-
-                x += h;
+                freeMembers[i]   = Math.Pow(h, 2) * fX(x);
             }
 
+            var y = SweepMethod.Solve(matrix, freeMembers);
 
-            var A = Matrix<double>.Build.DenseOfArray(matrix);
-            var B = Vector<double>.Build.Dense(freeMembers);
-
-            var answ = A.Solve(B);
-
+            return y;
         }
     }
 }
