@@ -30,13 +30,11 @@ namespace ComputationalMethods.Numerics.LinearSystems
             double _b = matrix[abLength, abLength]; // last b
             double _A = A[abLength - 1]; // last A
 
-            int round = 3;
-
-            x[freeMembers.Length - 1] = Math.Round((_f - _a * _B) / (_b + _a * _A), round);
+            x[freeMembers.Length - 1] = (_f - _a * _B) / (_b + _a * _A);
             // CALC THE REST ELEMENTS X //
             for (int i = freeMembers.Length - 2; i >= 0; i--)
             {
-                x[i] = Math.Round(A[i] * x[i + 1] + B[i], round);
+                x[i] = A[i] * x[i + 1] + B[i];
             }
             // END //
             return x;
