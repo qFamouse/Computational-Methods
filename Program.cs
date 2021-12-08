@@ -363,8 +363,33 @@ namespace ComputationalMethods {
             double start = 0;
             double end = 1;
             int N = 11;
+            double h = 0.1;
 
-            GridMethod.Solve(p, q, f, start, end, N, 1, 0, 0, 1, 0, 3);
+            var answer = GridMethod.Solve(p, q, f, start, end, N, 1, 0, 0, 1, 0, 3);
+
+            foreach (var y in answer)
+            {
+                //Console.WriteLine($"x: {start,4:g4} y: {y,5:g5} exact value: {2 * Math.Pow(start, 2) + start,5:g5}");
+                start += h;
+            }
+
+            /* Condition Variant 10 */
+            p = x => -Math.Pow(x + 3, 2);
+            q = x => -(2 / Math.Pow(x + 3, 2));
+            f = x => 3;
+
+            start = 0;
+            end = 1;
+            N = 11;
+            h = 0.1;
+
+            answer = GridMethod.Solve(p, q, f, start, end, N, 1d, -1d, 4/3d, 1, 0, 3/4d);
+
+            foreach (var y in answer)
+            {
+                Console.WriteLine($"x: {start,4:g4} y: {y,7:g5} exact value: {3 / (start + 3),5:g5}");
+                start += h;
+            }
         }
 
         #endregion
