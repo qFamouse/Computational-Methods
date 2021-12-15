@@ -15,7 +15,7 @@ namespace ComputationalMethods {
         #region Main
         static void Main(string[] args)
         {
-            Lab10();
+            Lab11();
         }
 
         #endregion
@@ -392,6 +392,22 @@ namespace ComputationalMethods {
             }
         }
 
+        static void Lab11()
+        {
+
+            Console.WriteLine();
+
+            Func<double, double> p = x => 0;
+            Func<double, double> q = x => 1;
+            Func<double, double> f = x => -x;
+
+            double start = 0;
+            double end = 1;
+            int N = 11;
+            double h = 0.1;
+
+            CollocationMethod.Solve(p, q, f, start, end, N, 1, 0, 0, 1, 0, 0);
+        }
         #endregion
 
         #endregion
